@@ -18,4 +18,8 @@ class Mahasiswa extends Model
         'alamat', 
         'kota'
     ];
+    public function getCountAttribute()
+    {
+        return self::where('kota', $this->kota)->count();
+    }
 }

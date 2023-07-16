@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf as PDF;
+use Illuminate\Support\Facades\DB;
 
 class MahasiswaController extends Controller
 {
@@ -13,24 +14,26 @@ class MahasiswaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index(Request $request)
-    {
-        $search = $request->input('search');
-        $data = Mahasiswa::query();
-
-        if ($search) {
-            $data = $data->where('nis', 'LIKE', "%$search%")
-                ->orWhere('nama', 'LIKE', "%$search%")
-                ->orWhere('tanggal_lahir', 'LIKE', "%$search%")
-                ->orWhere('jenis_kelamin', 'LIKE', "%$search%")
-                ->orWhere('alamat', 'LIKE', "%$search%")
-                ->orWhere('kota', 'LIKE', "%$search%");
-        }
-
-        $data = $data->orderBy('id', 'asc')->paginate(5);
-
-        return view("layouts/master/mahasiswa/mahasiswa", compact('data'));
-    }
+     public function index(Request $request)
+     {
+         $search = $request->input('search');
+         $data = Mahasiswa::query();
+     
+         if ($search) {
+             $data = $data->where('nis', 'LIKE', "%$search%")
+                 ->orWhere('nama', 'LIKE', "%$search%")
+                 ->orWhere('tanggal_lahir', 'LIKE', "%$search%")
+                 ->orWhere('jenis_kelamin', 'LIKE', "%$search%")
+                 ->orWhere('alamat', 'LIKE', "%$search%")
+                 ->orWhere('kota', 'LIKE', "%$search%");
+         }
+     
+         $data = $data->orderBy('id', 'asc')->paginate(5);
+     
+         $kotaList = Mahasiswa::distinct('kota')->pluck('kota');
+     
+         return view("layouts/master/mahasiswa/mahasiswa", compact('data', 'kotaList'));
+     }
 
     /**
      * Show the form for creating a new resource.
@@ -137,6 +140,47 @@ class MahasiswaController extends Controller
     {
         Mahasiswa::where('id', $id)->delete($id);
         return redirect('/master/mahasiswa')->with('success', 'Berhasil melakukan hapus data.');
+    }
+
+    // public function filter(Request $request)
+    // {
+    //     $jenisKelamin = $request->input('jenis_kelamin');
+    //     $kota = $request->input('kota');
+
+    //     $data = Mahasiswa::query();
+
+    //     if ($jenisKelamin) {
+    //         $data = $data->where('jenis_kelamin', $jenisKelamin);
+    //     }
+
+    //     if ($kota) {
+    //         $data = $data->where('kota', $kota);
+    //     }
+
+    //     $data = $data->orderBy('id', 'asc')->get();
+    //     $kotaList = Mahasiswa::distinct('kota')->pluck('kota');
+
+    //     return view('layouts/master/mahasiswa/table', compact('data', 'kotaList'));
+    // }
+
+    public function filters(Request $request)
+    {
+        $kota = $request->input('kota');
+
+        $data = Mahasiswa::query();
+
+        if ($kota) {
+            $data = $data->where('kota', $kota);
+        }
+
+        $data = $data->orderBy('id', 'asc')->get();
+
+        $data = Mahasiswa::select('kota')
+                ->orderBy('id', 'asc')
+                ->distinct()
+                ->get();
+
+        return view('layouts/master/mahasiswa/table', compact('data', 'kotaList'));
     }
 
     public function cetak_pdf() {

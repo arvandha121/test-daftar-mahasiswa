@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KotaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,15 +22,17 @@ Route::redirect('/', '/login');
 Route::get('/login', [SessionController::class, 'index']);
 Route::post('/login/check', [SessionController::class, 'login']); //check email dan password
 
-Route::post('/logout', [SessionController::class, 'logout'])->name('logout');
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
-
-Route::resource('/master/mahasiswa', MahasiswaController::class)->middleware('auth');
+Route::resource('/master/mahasiswa', MahasiswaController::class)->middleware('isLogin');
 Route::get('/master/mahasiswa/search', [MahasiswaController::class, 'search'])->name('mahasiswa.search');
+Route::post('/master/mahasiswa/filter', [MahasiswaController::class, 'filter'])->name('mahasiswa.filter');
 
-Route::get('/master/cetak_pdf', [MahasiswaController::class, 'cetak_pdf'])->name('cetak_pdf');
-Route::get('/master/cetak_excel', [MahasiswaController::class, 'cetak_excel'])->name('cetak_excel');
+Route::get('/master/cetak_pdf', [MahasiswaController::class, 'cetak_pdf'])->name('cetak_pdf')->middleware('isLogin');
+Route::get('/master/cetak_excel', [MahasiswaController::class, 'cetak_excel'])->name('cetak_excel')->middleware('isLogin');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('isLogin');
+Route::get('/master/kota', [KotaController::class, 'index'])->middleware('isLogin');
+
+Route::post('/logout', [SessionController::class, 'logout'])->name('logout');
 
 // Route::get('/master/mahasiswa', [MahasiswaController::class, 'index']);
 // Route::get('/master/mahasiswa/{id}', [MahasiswaController::class, 'show'])->where('id', '[0-9]+');

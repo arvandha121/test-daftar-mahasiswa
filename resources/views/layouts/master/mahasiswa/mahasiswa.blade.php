@@ -55,11 +55,29 @@
             </form>
         </div>
         <div class="d-flex justify-content-end" style="margin-left: 25px">
-            <a href="/master/mahasiswa/create" class="btn btn-primary mt-3 mb-4 ml-2"><b>+</b></a>
+            <a href="/master/mahasiswa/create" class="btn btn-primary mt-3 mb-4 ml-2">+ Tambah Data</a>
             <a href="/master/cetak_pdf" class="btn btn-danger mt-3 mb-4 ml-2"><span><i class="fa fa-print"></i></span></a>
             <a href="" class="btn btn-success mt-3 mb-4 ml-2"><span><i class="fa fa-file"></i></span></a>
         </div>
-        
+        <div class="row mb-3">
+            <div class="col">
+                <label for="jenis_kelamin">Jenis Kelamin:</label>
+                <select name="jenis_kelamin" id="jenis_kelamin" class="form-control" onchange="filterData()">
+                    <option value="">Pilih Jenis Kelamin</option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="kota">Kota:</label>
+                <select name="kota" id="kota" class="form-control">
+                    <option value="">Pilih Kota</option>
+                    @foreach ($kotaList as $kota)
+                        <option value="{{ $kota }}">{{ $kota }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <table class="table table-striped">
             <thead>
               <tr>
@@ -115,5 +133,31 @@
         document.getElementById("mySidenav").style.width = "0";
         }
     </script>
+
+<script>
+    function filterData() {
+        var jenisKelamin = document.getElementById('jenis_kelamin').value;
+        var kota = document.getElementById('kota').value;
+
+        var table = document.querySelector('.table');
+        var rows = table.getElementsByTagName('tr');
+
+        for (var i = 1; i < rows.length; i++) {
+            var row = rows[i];
+            var jenisKelaminCell = row.getElementsByTagName('td')[4];
+            var kotaCell = row.getElementsByTagName('td')[6];
+            var jenisKelaminData = jenisKelaminCell.textContent.trim();
+            var kotaData = kotaCell.textContent.trim();
+
+            if (
+                (kota === '' || kotaData === kota) && (jenisKelamin === '' || jenisKelaminData === jenisKelamin)
+            ) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    }
+</script>
 </body>
 </html>
