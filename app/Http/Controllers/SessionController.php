@@ -38,4 +38,12 @@ class SessionController extends Controller
             return redirect('/login');
         }
     }
+
+    public function logout(Request $request)
+    {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
 }

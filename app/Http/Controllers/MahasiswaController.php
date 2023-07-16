@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use Dompdf\Dompdf as PDF;
 
 class MahasiswaController extends Controller
 {
@@ -11,17 +12,23 @@ class MahasiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $data = Mahasiswa::where(function ($query) use ($search) {
-            $query->where('nis', 'LIKE', "%$search%")
+        $data = Mahasiswa::query();
+
+        if ($search) {
+            $data = $data->where('nis', 'LIKE', "%$search%")
                 ->orWhere('nama', 'LIKE', "%$search%")
                 ->orWhere('tanggal_lahir', 'LIKE', "%$search%")
                 ->orWhere('jenis_kelamin', 'LIKE', "%$search%")
                 ->orWhere('alamat', 'LIKE', "%$search%")
                 ->orWhere('kota', 'LIKE', "%$search%");
-        })->orderBy('id', 'asc')->paginate(5);
+        }
+
+        $data = $data->orderBy('id', 'asc')->paginate(5);
+
         return view("layouts/master/mahasiswa/mahasiswa", compact('data'));
     }
 
@@ -85,7 +92,8 @@ class MahasiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Mahasiswa::where('id', $id)->first();
+        return view('layouts/master/mahasiswa/edit')->with('data', $data);
     }
 
     /**
@@ -97,7 +105,26 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate(
+            [
+                'nis'=>'required|numeric',
+                'nama'=>'required',
+                'tanggal_lahir'=>'required',
+                'jenis_kelamin'=>'required',
+                'alamat'=>'required',
+                'kota'=>'required',
+            ]
+        );
+        $data = [
+            'nis'=>$request->input('nis'),
+            'nama'=>$request->input('nama'),
+            'tanggal_lahir'=>$request->input('tanggal_lahir'),
+            'jenis_kelamin'=>$request->input('jenis_kelamin'),
+            'alamat'=>$request->input('alamat'),
+            'kota'=>$request->input('kota'),
+        ];
+        Mahasiswa::where('id', $id)->update($data);
+        return redirect('/master/mahasiswa')->with('success', 'Berhasil melakukan update data.');
     }
 
     /**
@@ -108,6 +135,18 @@ class MahasiswaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Mahasiswa::where('id', $id)->delete($id);
+        return redirect('/master/mahasiswa')->with('success', 'Berhasil melakukan hapus data.');
+    }
+
+    public function cetak_pdf() {
+        $data = Mahasiswa::all();
+        $pdf = new PDF();
+        $html = view('layouts/master/cetak_pdf', compact('data'))->render();
+        $pdf->loadHtml($html);
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->render();
+
+        return $pdf->stream();
     }
 }

@@ -18,7 +18,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/menu.css') }}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
 </head>
 <body>
     <header class="mb-3">
@@ -28,22 +27,39 @@
             <a href="/master/mahasiswa">Data Mahasiswa</a>
             <a href="/master/kota">Data Kota</a>
             <a href="/users">Administration</a>
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
         </div>
         <!-- Use any element to open the sidenav -->
-        <span onclick="openNav()"  style="font-size: 25px"><i class="fa fa-bars ml-5"></i></span>
+        <span onclick="openNav()" style="font-size: 25px">
+            <i class="fa fa-bars ml-5 mr-3"></i>
+            Data Mahasiswa
+        </span>
     </header>
     <div class="container">
-        <div class="d-flex justify-content-start" style="margin-right: 25px">
-            <div class="searchbar mb-3">
-                <input class="search_input" type="text" name="" placeholder="Search..." value="{{ request('search') }}">
-                <a href="#" class="search_icon">
-                    <form action="{{ route('mahasiswa.index') }}" method="GET">
-                        <button type="submit" class="search_icon"><i class="fas fa-search"></i></button>
-                    </form>
-                </a>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
-            <a href="/master/mahasiswa/create" class="btn btn-primary mb-3 ml-2">+</a>
+        @endif
+        <div class="float-left mt-3 mr-1">
+            <form action="{{ route('mahasiswa.index') }}">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="search..." name="search" value="{{ request('search')}}">
+                    <button class="btn btn-success" type="submit">
+                        <span><i class="fa fa-search"></i></span>
+                    </button>
+                </div>
+            </form>
         </div>
+        <div class="d-flex justify-content-end" style="margin-left: 25px">
+            <a href="/master/mahasiswa/create" class="btn btn-primary mt-3 mb-4 ml-2"><b>+</b></a>
+            <a href="/master/cetak_pdf" class="btn btn-danger mt-3 mb-4 ml-2"><span><i class="fa fa-print"></i></span></a>
+            <a href="" class="btn btn-success mt-3 mb-4 ml-2"><span><i class="fa fa-file"></i></span></a>
+        </div>
+        
         <table class="table table-striped">
             <thead>
               <tr>
@@ -67,12 +83,28 @@
                         <td>{{ $item->jenis_kelamin }}</td>
                         <td>{{ $item->alamat }}</td>
                         <td>{{ $item->kota }}</td>
-                        <td><a class="btn btn-secondary btn-sm" href="{{ url('/master/mahasiswa/'.$item->id) }}">Detail</a></td>
+                        <td>
+                            <a class="btn btn-secondary btn-sm d-inline" href="{{ url('/master/mahasiswa/'.$item->id) }}">
+                                <span><i class="fa fa-file"></i></span>
+                            </a>
+                            <a class="btn btn-warning btn-sm d-inline" href="{{ url('/master/mahasiswa/'.$item->id. '/edit') }}">
+                                <span><i class="fa fa-pen"></i></span>
+                            </a>
+                            <form class="d-inline" action="{{ '/master/mahasiswa/'.$item->id }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm" type="submit">
+                                    <span><i class="fa fa-trash"></i></span>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        {{ $data->links() }}
+        <div class="mb-4">
+            {{ $data->links() }}
+        </div>
     </div>
     <script>
         function openNav() {

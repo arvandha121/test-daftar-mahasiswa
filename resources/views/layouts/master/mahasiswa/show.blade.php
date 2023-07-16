@@ -11,11 +11,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/detail.css') }}">
 </head>
 <body>
-    <div class="container">
+    <div class="container mt-5">
         <table class="table table-striped">
             <tr>
                 <td>
-                    <h4>Detail Data Id {{ $data->id }}</h4>
+                    <h4>Detail Data Id {{ $data->id ?? '' }}</h4>
                     <td></td>
                     <td></td>
                 </td>
@@ -23,32 +23,32 @@
             <tr>
                 <td><b>Nama</b></td>
                 <td><b>:</b></td>
-                <td>{{ $data->nama }}</td>
+                <td>{{ $data->nama ?? '' }}</td>
             </tr>
             <tr>
                 <td><b>Nim</b></td>
                 <td><b>:</b></td>
-                <td>{{ $data->nis }}</td>
+                <td>{{ $data->nis ?? '' }}</td>
             </tr>
             <tr>
                 <td><b>Jenis Kelamin</b></td>
                 <td><b>:</b></td>
-                <td>{{ $data->jenis_kelamin }}</td>
+                <td>{{ $data->jenis_kelamin ?? '' }}</td>
             </tr>
             <tr>
                 <td><b>Tanggal Lahir</b></td>
                 <td><b>:</b></td>
-                <td>{{ $data->tanggal_lahir }}</td>
+                <td>{{ $data->tanggal_lahir ?? '' }}</td>
             </tr>
             <tr>
                 <td><b>Alamat</b></td>
                 <td><b>:</b></td>
-                <td>{{ $data->alamat }}</td>
+                <td>{{ $data->alamat ?? '' }}</td>
             </tr>
             <tr>
                 <td><b>Kota</b></td>
                 <td><b>:</b></td>
-                <td>{{ $data->kota }}</td>
+                <td>{{ $data->kota ?? '' }}</td>
             </tr>
         </table>
         <a href="/master/mahasiswa" class="btn btn-success">Kembali</a>

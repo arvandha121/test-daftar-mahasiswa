@@ -44,19 +44,20 @@
                 </ul>
             </div>
         @endif
-        <form method="POST" action="{{ route('mahasiswa.store') }}">
+        <form method="POST" action="{{ route('mahasiswa.update', $data->id) }}">
             @csrf
+            @method('PUT')
             <div class="mb-3">
                 <label for="nis" class="form-label">Nim</label>
-                <input type="text" class="form-control" id="nis" name="nis" placeholder="Nim Mahasiswa">
+                <input type="text" class="form-control" id="nis" name="nis" placeholder="Nim Mahasiswa" value="{{ $data->nis }}">
             </div>
             <div class="mb-3">
                 <label for="nama" class="form-label">Nama</label>
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Lengkap Mahasiswa">
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Lengkap Mahasiswa" value="{{ $data->nama }}">
             </div>
             <div class="mb-3">
                 <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                <input type="text" class="form-control" id="tanggal_lahir" name="tanggal_lahir" placeholder="Tanggal Lahir Mahasiswa">
+                <input type="text" class="form-control" id="tanggal_lahir" name="tanggal_lahir" placeholder="Tanggal Lahir Mahasiswa" value="{{ $data->tanggal_lahir }}">
             </div>
             <div class="mb-3">
                 <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
@@ -75,11 +76,11 @@
             </div>
             <div class="mb-3">
                 <label for="alamat" class="form-label">Alamat</label>
-                <textarea class="form-control" placeholder="Alamat Rumah Mahasiswa" name="alamat"></textarea>
+                <textarea class="form-control" placeholder="Alamat Rumah Mahasiswa" name="alamat">{{ $data->alamat }}</textarea>
             </div>
             <div class="mb-3">
                 <label for="kota" class="form-label">Kota</label>
-                <input type="text" class="form-control" id="kota" name="kota" placeholder="Kota Asal Mahasiswa">
+                <input type="text" class="form-control" id="kota" name="kota" placeholder="Kota Asal Mahasiswa" value="{{ $data->kota }}">
             </div>
             <div class="mt-4">
                 <a href="{{ route('mahasiswa.index') }}" class="btn btn-success">Kembali</a>
