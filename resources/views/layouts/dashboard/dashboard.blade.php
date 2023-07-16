@@ -38,6 +38,9 @@
             Dashboard
         </span>
     </header>
+
+    <canvas id="birthYearChart"></canvas>
+
     <script>
         function openNav() {
         document.getElementById("mySidenav").style.width = "250px";
@@ -45,6 +48,41 @@
 
         function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Ambil data tahun kelahiran dari controller
+        const birthYears = {!! json_encode($birthYears) !!};
+    
+        // Inisialisasi data chart
+        const ctx = document.getElementById('birthYearChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: birthYears,
+                datasets: [{
+                    label: 'Jumlah Mahasiswa',
+                    data: birthYears.map(year => countMahasiswaByYear(year, birthYearCounts)),
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }
+            }
+        });
+    
+        // Fungsi untuk mengambil jumlah mahasiswa berdasarkan tahun kelahiran
+        function countMahasiswaByYear(year, birthYearCounts) {
+            return birthYearCounts.find(data => data.birth_year === year)?.count || 0;
         }
     </script>
 </body>

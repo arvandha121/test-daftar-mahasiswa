@@ -5,6 +5,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KotaController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,11 @@ Route::get('/master/cetak_pdf', [MahasiswaController::class, 'cetak_pdf'])->name
 Route::get('/master/cetak_excel', [MahasiswaController::class, 'cetak_excel'])->name('cetak_excel')->middleware('isLogin');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('isLogin');
-Route::get('/master/kota', [KotaController::class, 'index'])->middleware('isLogin');
+Route::get('/birth-year-chart', [DashboardController::class, 'birthYearChart']);
+Route::get('/master/kota', [KotaController::class, 'index'])->name('kota.index')->middleware('isLogin');
+Route::get('/master/kota/search', [KotaController::class, 'show'])->name('kota.search')->middleware('isLogin');
+
+Route::get('/users', [UsersController::class, 'index'])->middleware('isLogin');
 
 Route::post('/logout', [SessionController::class, 'logout'])->name('logout');
 
