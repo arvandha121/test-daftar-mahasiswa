@@ -95,7 +95,7 @@
     <script>
         $(document).ready(function() {
             $("#tanggal_lahir").datepicker({
-                dateFormat: "dd MM yy",  // Format tanggal yang ditampilkan
+                dateFormat: "yy-mm-dd",  // Format tanggal yang ditampilkan
                 changeMonth: true,
                 changeYear: true
             });

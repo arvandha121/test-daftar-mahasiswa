@@ -9,57 +9,46 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     function index() {
-        $birthYears = $this->getBirthYearData();
-
-        return view("layouts/dashboard/dashboard", compact('birthYears'));
-    }
-
-    public function getBirthYearData() {
-        $birthYears = Mahasiswa::select(DB::raw("YEAR(tanggal_lahir) as year"))
-            ->distinct()
-            ->orderBy('year', 'asc')
-            ->get()
-            ->pluck('year');
-
-            $birthYearCounts = Mahasiswa::select(DB::raw('YEAR(tanggal_lahir) as birth_year'), DB::raw('COUNT(*) as count'))
-            ->groupBy('birth_year')
-            ->orderBy('birth_year')
+        $dataTahun = DB::table('mahasiswa')
+            ->select(DB::raw('YEAR(tanggal_lahir) as tahun'), DB::raw('count(*) as jumlahTahun'))
+            ->groupBy('tahun')
+            ->orderBy('tahun')
             ->get();
-        
-        return view("layouts/dashboard/dashboard", compact('birthYears', 'birthYearCounts'));
+        $labelsTahun = $dataTahun->pluck('tahun')->all();
+        $datasetTahun = $dataTahun->pluck('jumlahTahun')->all();
+
+        $dataGender = DB::table('mahasiswa')
+            ->select(DB::raw('jenis_kelamin as kelamin'), DB::raw('count(*) as jumlahGender'))
+            ->groupBy('kelamin')
+            ->orderBy('kelamin')
+            ->get();
+        $labelsGender = $dataGender->pluck('kelamin')->all();
+        $datasetGender = $dataGender->pluck('jumlahGender');
+
+        $dataCity = DB::table('mahasiswa')
+            ->select(DB::raw('kota as kotas'), DB::raw('count(*) as jumlahKota'))
+            ->groupBy('kotas')
+            ->orderBy('kotas')
+            ->get();
+        $labelsCity = $dataCity->pluck('kotas')->all();
+        $datasetCity = $dataCity->pluck('jumlahKota');
+
+        $totalStudents = Mahasiswa::count();
+        $totalMaleStudents = Mahasiswa::where('jenis_kelamin', 'Laki-laki')->count();
+        $totalFemaleStudents = Mahasiswa::where('jenis_kelamin', 'Perempuan')->count();
+
+        return view("layouts/dashboard/dashboard", with(
+            [
+                'labelsTahun' => $labelsTahun , 
+                'datasetTahun' => $datasetTahun, 
+                'labelsGender' => $labelsGender,
+                'datasetGender' => $datasetGender,
+                'labelsCity' => $labelsCity,
+                'datasetCity' => $datasetCity,
+                'totalStudents' => $totalStudents, 
+                'totalMaleStudents' => $totalMaleStudents, 
+                'totalFemaleStudents' => $totalFemaleStudents
+            ]
+        ));
     }
-
-    // public function barChart() {
-
-    //     $birthYears = Mahasiswa::select(DB::raw('YEAR(tanggal_lahir) as birth_year'))
-    //         ->distinct()
-    //         ->pluck('birth_year');
-
-    //     $birthYearCounts = Mahasiswa::select(DB::raw('YEAR(tanggal_lahir) as birth_year'), DB::raw('COUNT(*) as count'))
-    //         ->groupBy('birth_year')
-    //         ->orderBy('birth_year')
-    //         ->get();
-
-    //     return response()->json([
-    //         'birthYears' => $birthYears,
-    //         'birthYearCounts' => $birthYearCounts,
-    //     ]);
-        
-    //     // $data = Mahasiswa::selectRaw("YEAR(tanggal_lahir) as year, COUNT(*) as count")
-    //     //     ->whereYear('tanggal_lahir', date('Y'))
-    //     //     ->groupBy('year')
-    //     //     ->orderBy('year')
-    //     //     ->get();
-        
-    //     // $label = [];
-    //     // $data = [];
-    //     // $colors = ['#FF6384', '#36A2EB', '#FFCE56', '#FF5722', '#FF5722', '#009688'];
-
-    //     // for($i = 0; $i < count($data); $i++) {
-    //     //     $year = date('F', mktime(0,0,0,0,0,$i));
-    //     //     $count = 0;
-
-
-    //     // }
-    // }
 }

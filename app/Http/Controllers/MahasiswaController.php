@@ -19,7 +19,7 @@ class MahasiswaController extends Controller
          $search = $request->input('search');
          $data = Mahasiswa::query();
      
-         if ($search) {
+        if ($search) {
              $data = $data->where('nis', 'LIKE', "%$search%")
                  ->orWhere('nama', 'LIKE', "%$search%")
                  ->orWhere('tanggal_lahir', 'LIKE', "%$search%")
@@ -141,27 +141,6 @@ class MahasiswaController extends Controller
         Mahasiswa::where('id', $id)->delete($id);
         return redirect('/master/mahasiswa')->with('success', 'Berhasil melakukan hapus data.');
     }
-
-    // public function filter(Request $request)
-    // {
-    //     $jenisKelamin = $request->input('jenis_kelamin');
-    //     $kota = $request->input('kota');
-
-    //     $data = Mahasiswa::query();
-
-    //     if ($jenisKelamin) {
-    //         $data = $data->where('jenis_kelamin', $jenisKelamin);
-    //     }
-
-    //     if ($kota) {
-    //         $data = $data->where('kota', $kota);
-    //     }
-
-    //     $data = $data->orderBy('id', 'asc')->get();
-    //     $kotaList = Mahasiswa::distinct('kota')->pluck('kota');
-
-    //     return view('layouts/master/mahasiswa/table', compact('data', 'kotaList'));
-    // }
 
     public function filters(Request $request)
     {

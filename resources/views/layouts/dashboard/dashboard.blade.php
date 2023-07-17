@@ -38,8 +38,99 @@
             Dashboard
         </span>
     </header>
-
-    <canvas id="birthYearChart"></canvas>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-3 col-sm-3">
+                <div class="card card-statistic-2">
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Total Students</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                {{ $totalStudents }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-3">
+                <div class="card card-statistic-2">
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-male"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Total Male</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                {{ $totalMaleStudents }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-3">
+                <div class="card card-statistic-2">
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Total Female</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                {{ $totalFemaleStudents }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-lg-6 mt-3 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4>Presentase Mahasiswa Berdasarkan Gender</h4>
+                                <canvas id="studentsGender" style="min-width: 50px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-lg-6 mt-3 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4>Presentase Mahasiswa Berdasarkan Asal Kota</h4>
+                                <canvas id="studentsCity" style="min-width: 50px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-lg-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4>Jumlah Mahasiswa Berdasarkan Tahun Kelahiran</h4>
+                            <canvas id="birthYearChart" style="min-width: 50px"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         function openNav() {
@@ -52,37 +143,106 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
-        // Ambil data tahun kelahiran dari controller
-        const birthYears = {!! json_encode($birthYears) !!};
+        var ctx = document.getElementById('studentsGender').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: @json($labelsGender),
+                datasets: [{
+                    label: 'Jumlah',
+                    data: @json($datasetGender),
+                    backgroundColor: [
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 99, 132)'
+                    ],
+                    borderColor: 'rgba(255, 255, 255, 255)',
+                    borderWidth: 4
+                }]
+            },
+        });
+    </script>
+
+    <script>
+        var ctx = document.getElementById('studentsCity').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: @json($labelsCity),
+                datasets: [{
+                    label: 'Jumlah',
+                    data: @json($datasetCity),
+                    backgroundColor: generateBackgroundColors(@json($datasetCity)),
+                    borderColor: '#ffffff',
+                    borderWidth: 1
+                }]
+            },
+        });
     
-        // Inisialisasi data chart
-        const ctx = document.getElementById('birthYearChart').getContext('2d');
-        const chart = new Chart(ctx, {
+        function generateBackgroundColors(data) {
+            var backgroundColors = [];
+            for (var i = 0; i < data.length; i++) {
+                backgroundColors.push(getRandomColor());
+            }
+            return backgroundColors;
+        }
+    
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+
+    <script>
+        var ctx = document.getElementById('birthYearChart').getContext('2d');
+        var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: birthYears,
+                labels: @json($labelsTahun),
                 datasets: [{
-                    label: 'Jumlah Mahasiswa',
-                    data: birthYears.map(year => countMahasiswaByYear(year, birthYearCounts)),
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    label: 'Jumlah',
+                    data: @json($datasetTahun),
+                    backgroundColor: generateBackgroundColors(@json($datasetTahun)),
+                    borderColor: '#ffffff',
                     borderWidth: 1
                 }]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true,
-                        stepSize: 1
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(0, 0, 0, 0)' // Transparent color for labels
+                        }
                     }
                 }
             }
         });
     
-        // Fungsi untuk mengambil jumlah mahasiswa berdasarkan tahun kelahiran
-        function countMahasiswaByYear(year, birthYearCounts) {
-            return birthYearCounts.find(data => data.birth_year === year)?.count || 0;
+        function generateBackgroundColors(data) {
+            var backgroundColors = [];
+            for (var i = 0; i < data.length; i++) {
+                backgroundColors.push(getRandomColor());
+            }
+            return backgroundColors;
+        }
+    
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
         }
     </script>
 </body>

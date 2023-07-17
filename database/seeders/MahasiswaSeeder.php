@@ -19,7 +19,7 @@ class MahasiswaSeeder extends Seeder
             [
                 'nis'=>'2041720134',
                 'nama'=>'Arief Nauvan Ramadha',
-                'tanggal_lahir'=>'20 November 2001',
+                'tanggal_lahir'=>'2001-11-20',
                 'jenis_kelamin'=>'Laki-laki',
                 'alamat'=>'Perumahan pondok kencana I/1',
                 'kota'=>'Nganjuk',
@@ -30,7 +30,7 @@ class MahasiswaSeeder extends Seeder
             [
                 'nis'=>'2041720130',
                 'nama'=>'Ahmad Rafif Alaudin',
-                'tanggal_lahir'=>'10 February 2002',
+                'tanggal_lahir'=>'2002-01-12',
                 'jenis_kelamin'=>'Laki-laki',
                 'alamat'=>'Perumahan Pondok Asri K/10',
                 'kota'=>'Kediri',
@@ -41,7 +41,7 @@ class MahasiswaSeeder extends Seeder
             [
                 'nis'=>'2041720010',
                 'nama'=>'Taufik Anwar',
-                'tanggal_lahir'=>'15 December 2001',
+                'tanggal_lahir'=>'2001-08-15',
                 'jenis_kelamin'=>'Laki-laki',
                 'alamat'=>'Jalan Raya Mulyoagung No.122',
                 'kota'=>'Malang',
@@ -52,7 +52,7 @@ class MahasiswaSeeder extends Seeder
             [
                 'nis'=>'2041720098',
                 'nama'=>'Alun Mega',
-                'tanggal_lahir'=>'10 March 2002',
+                'tanggal_lahir'=>'2001-03-10',
                 'jenis_kelamin'=>'Perempuan',
                 'alamat'=>'Jalan Dr. Soetomo V/15',
                 'kota'=>'Nganjuk',
@@ -63,7 +63,7 @@ class MahasiswaSeeder extends Seeder
             [
                 'nis'=>'2041720016',
                 'nama'=>'Atmayanti',
-                'tanggal_lahir'=>'25 March 2002',
+                'tanggal_lahir'=>'2003-03-15',
                 'jenis_kelamin'=>'Perempuan',
                 'alamat'=>'Desa Bandung',
                 'kota'=>'Tulungagung',
@@ -74,7 +74,7 @@ class MahasiswaSeeder extends Seeder
             [
                 'nis'=>'2041720015',
                 'nama'=>'Muchammad Rizal Gusnanda Atmaja',
-                'tanggal_lahir'=>'10 June 2001',
+                'tanggal_lahir'=>'2003-10-12',
                 'jenis_kelamin'=>'Laki-laki',
                 'alamat'=>'Desa Dawuhan',
                 'kota'=>'Trenggalek',
@@ -85,7 +85,7 @@ class MahasiswaSeeder extends Seeder
             [
                 'nis'=>'2041720100',
                 'nama'=>'Venny Meida Hersianty',
-                'tanggal_lahir'=>'31 May 2001',
+                'tanggal_lahir'=>'2002-01-11',
                 'jenis_kelamin'=>'Perempuan',
                 'alamat'=>'Jalan Sidoagung No.155',
                 'kota'=>'Malang',

@@ -57,7 +57,7 @@
         <div class="d-flex justify-content-end" style="margin-left: 25px">
             <a href="/master/mahasiswa/create" class="btn btn-primary mt-3 mb-4 ml-2">+ Tambah Data</a>
             <a href="/master/cetak_pdf" class="btn btn-danger mt-3 mb-4 ml-2"><span><i class="fa fa-print"></i></span></a>
-            <a href="" class="btn btn-success mt-3 mb-4 ml-2"><span><i class="fa fa-file"></i></span></a>
+            <a href="" class="btn btn-success disabled mt-3 mb-4 ml-2"><span><i class="fa fa-file"></i></span></a>
         </div>
         <div class="row mb-3">
             <div class="col">
@@ -102,7 +102,7 @@
                         <td>{{ $item->alamat }}</td>
                         <td>{{ $item->kota }}</td>
                         <td>
-                            <a class="btn btn-secondary btn-sm d-inline" href="{{ url('/master/mahasiswa/'.$item->id) }}">
+                            <a class="btn btn-success btn-sm d-inline" href="{{ url('/master/mahasiswa/'.$item->id) }}">
                                 <span><i class="fa fa-file"></i></span>
                             </a>
                             <a class="btn btn-warning btn-sm d-inline" href="{{ url('/master/mahasiswa/'.$item->id. '/edit') }}">
