@@ -16,6 +16,7 @@ class Mahasiswa extends Model
         'tanggal_lahir', 
         'jenis_kelamin', 
         'alamat', 
+        'pelanggaran', 
         'kota'
     ];
     public function getCountAttribute()

@@ -25,6 +25,7 @@ class MahasiswaController extends Controller
                  ->orWhere('tanggal_lahir', 'LIKE', "%$search%")
                  ->orWhere('jenis_kelamin', 'LIKE', "%$search%")
                  ->orWhere('alamat', 'LIKE', "%$search%")
+                 ->orWhere('pelanggaran', 'LIKE', "%$search%")
                  ->orWhere('kota', 'LIKE', "%$search%");
          }
      
@@ -60,6 +61,7 @@ class MahasiswaController extends Controller
                 'tanggal_lahir'=>'required',
                 'jenis_kelamin'=>'required',
                 'alamat'=>'required',
+                'pelanggaran'=>'required',
                 'kota'=>'required',
             ]
         );
@@ -69,6 +71,7 @@ class MahasiswaController extends Controller
             'tanggal_lahir'=>$request->input('tanggal_lahir'),
             'jenis_kelamin'=>$request->input('jenis_kelamin'),
             'alamat'=>$request->input('alamat'),
+            'pelanggaran'=>$request->input('pelanggaran'),
             'kota'=>$request->input('kota'),
         ];
         Mahasiswa::create($data);
@@ -115,6 +118,7 @@ class MahasiswaController extends Controller
                 'tanggal_lahir'=>'required',
                 'jenis_kelamin'=>'required',
                 'alamat'=>'required',
+                'pelanggaran'=>'required',
                 'kota'=>'required',
             ]
         );
@@ -124,6 +128,7 @@ class MahasiswaController extends Controller
             'tanggal_lahir'=>$request->input('tanggal_lahir'),
             'jenis_kelamin'=>$request->input('jenis_kelamin'),
             'alamat'=>$request->input('alamat'),
+            'pelanggaran'=>$request->input('pelanggaran'),
             'kota'=>$request->input('kota'),
         ];
         Mahasiswa::where('id', $id)->update($data);

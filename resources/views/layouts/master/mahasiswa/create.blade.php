@@ -78,6 +78,10 @@
                 <textarea class="form-control" placeholder="Alamat Rumah Mahasiswa" name="alamat"></textarea>
             </div>
             <div class="mb-3">
+                <label for="pelanggaran" class="form-label">Pelanggaran</label>
+                <input type="text" class="form-control" id="pelanggaran" name="pelanggaran" placeholder="Tuliskan Pelanggaran Mahasiswa">
+            </div>
+            <div class="mb-3">
                 <label for="kota" class="form-label">Kota</label>
                 <input type="text" class="form-control" id="kota" name="kota" placeholder="Kota Asal Mahasiswa">
             </div>

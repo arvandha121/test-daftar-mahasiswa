@@ -46,6 +46,11 @@
                 <td>{{ $data->alamat ?? '' }}</td>
             </tr>
             <tr>
+                <td><b>Pelanggaran</b></td>
+                <td><b>:</b></td>
+                <td>{{ $data->pelanggaran ?? '' }}</td>
+            </tr>
+            <tr>
                 <td><b>Kota</b></td>
                 <td><b>:</b></td>
                 <td>{{ $data->kota ?? '' }}</td>

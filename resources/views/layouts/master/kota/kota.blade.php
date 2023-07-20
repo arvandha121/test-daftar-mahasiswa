@@ -19,35 +19,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
-    <header class="mb-3">
+    <header class="in-line d-flex justify-content-start align-items-center mb-1">
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="/dashboard">Dashboard</a>
-            <a href="/master/mahasiswa">Data Mahasiswa</a>
-            <a href="/master/kota">Data Kota</a>
-            <a href="/users">Administration</a>
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+            <a href="/dashboard"><i class="fa fa-home mr-2"></i>Dashboard</a>
+            <a href="/master/mahasiswa"><i class="fa fa-database mr-2"></i>Data Mahasiswa</a>
+            <a href="/master/kota"><i class="fa fa-city mr-2"></i>Data Kota</a>
+            <a href="/users"><i class="fa fa-key mr-2"></i>Administration</a>
+            <hr> <!-- Line separator -->
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out-alt mr-2"></i>Logout</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
         </div>
         <!-- Use any element to open the sidenav -->
         <span onclick="openNav()" style="font-size: 25px">
-            <i class="fa fa-bars ml-5 mr-3"></i>
-            Data Kota
+            <i class="fa fa-bars ml-5 mr-2"></i>
         </span>
+        <h4 class="ml-3 mt-1">
+            Data Kota
+        </h4>
     </header>
 
     <div class="container">
-        <div class="float-left mt-3 mb-3 mr-1">
-            <form action="{{ route('kota.index') }}">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="search..." name="kota" value="{{ request('kota') }}">
-                    <button class="btn btn-success" type="submit">
-                        <span><i class="fa fa-search"></i></span>
-                    </button>
-                </div>
-            </form>
+        <div class="row">
+            <div class="col-md-5 mt-3">
+                <form action="{{ route('kota.index') }}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="search..." name="kota" value="{{ request('kota') }}">
+                        <button class="btn btn-success" type="submit">
+                            <span><i class="fa fa-search"></i></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
         <table class="table table-striped">
             <thead>
@@ -71,7 +76,7 @@
 
     <script>
         function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("mySidenav").style.width = "300px";
         }
 
         function closeNav() {
