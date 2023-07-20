@@ -80,15 +80,15 @@
             </div>
             <div class="mb-3">
                 <label for="pelanggaran" class="form-label">Pelanggaran</label>
-                <input type="text" class="form-control" id="pelanggaran" name="pelanggaran" placeholder="pelanggaran Asal Mahasiswa" value="{{ $data->kota }}">
+                <input type="text" class="form-control" id="pelanggaran" name="pelanggaran" placeholder="pelanggaran Asal Mahasiswa" value="{{ $data->pelanggaran }}">
             </div>
             <div class="mb-3">
                 <label for="kota" class="form-label">Kota</label>
                 <input type="text" class="form-control" id="kota" name="kota" placeholder="Kota Asal Mahasiswa" value="{{ $data->kota }}">
             </div>
             <div class="mt-4">
-                <a href="{{ route('mahasiswa.index') }}" class="btn btn-success">Kembali</a>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{{ route('mahasiswa.index') }}" class="btn btn-success mb-3">Kembali</a>
+                <button type="submit" class="btn btn-primary mb-3">Submit</button>
             </div>
         </form>
     </div>
